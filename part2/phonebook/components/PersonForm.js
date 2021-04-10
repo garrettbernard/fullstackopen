@@ -7,12 +7,12 @@ const PersonForm = ({ persons, setPersons, newName, setNewName, newPhone,setNewP
   const addName = (event) => {
     event.preventDefault()
     const nameObject = {
-      content: newName,
+      name: newName,
       number: newPhone,
       id: persons.length + 1
     }
 
-    const isDuplicate = persons.filter(person => person.content === newName).map(filteredName => filteredName.content)
+    const isDuplicate = persons.filter(person => person.name === newName).map(filteredName => filteredName.name)
 
     if (isDuplicate.length > 0) {
       window.alert(newName + " is already added to phonebook");
