@@ -1,7 +1,7 @@
 import React from 'react'
 import nameService from '../services/names'
 
-const PersonForm = ({ persons, setPersons, newName, setNewName, newPhone,setNewPhone }) => {
+const PersonForm = ({ persons, setPersons, newName, setNewName, newPhone,setNewPhone, setNewMessage }) => {
   const handleNameChange = (event) => setNewName(event.target.value)
   const handlePhoneChange = (event) => setNewPhone(event.target.value)
 
@@ -25,11 +25,16 @@ const PersonForm = ({ persons, setPersons, newName, setNewName, newPhone,setNewP
           .update(isDuplicate[0], changedName)
           .then(returnedName => {
             setPersons(persons.map(name => name.id !== isDuplicate[0] ? name : returnedName))
+            setNewMessage(`Updated ${nameObject.name}`)
         })
         .catch(error => {
-          alert(
-            `the name '${name.number}' was already updated from server`
-          )
+          setNewMessage({
+            message: `Information of ${nameObject.name} has already been removed from server`,
+            type: 'error'
+          })
+          setTimeout(() => {
+            setNewMessage(null)
+          }, 5000)
         })
 
       } else {
@@ -43,6 +48,13 @@ const PersonForm = ({ persons, setPersons, newName, setNewName, newPhone,setNewP
           setPersons(persons.concat(nameObject));
           setNewName('');
           setNewPhone('');
+          setNewMessage({
+            message: `Added ${nameObject.name}`,
+            type: 'added'
+          })
+          setTimeout(() => {
+            setNewMessage(null)
+          }, 5000)
         })
     }
   }
